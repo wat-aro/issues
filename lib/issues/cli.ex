@@ -1,5 +1,5 @@
 defmodule Issues.CLI do
-  alias Issues.TableFormatter, as: TF
+  import Issues.TableFormatter, only: [ print_table_for_columns: 2 ]
 
   @default_count 4
 
@@ -9,7 +9,7 @@ defmodule Issues.CLI do
   table of the last _n_ issues in a github project
   """
 
-  def run(argv) do
+  def main(argv) do
     argv
     |> parse_args
     |> process
@@ -55,7 +55,7 @@ defmodule Issues.CLI do
     |> convert_to_list_of_maps
     |> sort_into_ascending_order
     |> Enum.take(count)
-    |> TF.print_table_for_columns(["numbers", "created_at", "title"])
+    |> print_table_for_columns(["number", "created_at", "title"])
   end
 
   def decode_response({:ok, body}), do: body
